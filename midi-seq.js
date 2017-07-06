@@ -1,14 +1,24 @@
 'use strict';
 
-const playButton = document.querySelector('button');
+const playButton = document.querySelector('.play-button');
+const stopButton = document.querySelector('.stop-button');
 
 WebMidi.enable((err) => {
     if (err) {
     console.log("WebMidi could not be enabled.", err);
     } else {
         const output =  WebMidi.getOutputByName('USB Midi Cable MIDI 1');
-        playButton.addEventListener('click', (e) =>{
-            sequenceHandling(output, start);
+        let playLoop;
+
+        playButton.addEventListener('click', (e) => {
+            playButton.disabled = true;
+            stopButton.disabled = false;
+            playLoop = setInterval(playOneNote, 1000/8, output);
+        });
+        stopButton.addEventListener('click', (e) => {
+            playButton.disabled = false;
+            stopButton.disabled = true;
+            clearInterval(playLoop);
         });
     }
 });
@@ -19,8 +29,4 @@ const playOneNote = function(output) {
     }
     output.playNote('C3', 1);
     output.stopNote('C3', 1, options)
-}
-
-const sequenceHandling = function(output) {
-    const playLoop = setInterval(playOneNote, 1000/8, output);
 }

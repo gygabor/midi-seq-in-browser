@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/gygabor/midi-seq-in-browser/issues"
   },
-  "homepage": "https://github.com/gygabor/midi-seq-in-browser#readme"
+  "homepage": "https://github.com/gygabor/midi-seq-in-browser#readme",
+  "dependencies": {
+    "webmidi": "^2.0.0-rc.5"
+  }
 }

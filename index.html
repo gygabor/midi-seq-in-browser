@@ -7,7 +7,19 @@
 
     </head>
     <body>
-        <button class="play-button">Play</button>
+        <label>Select the length of the loop:
+            <select class="loop-length">
+                <option value="0">-</option>
+                <option value="8">8</option>
+                <option value="16">16</option>
+            </select>
+        </label>
+        <label>Tempo:
+            <input type="number" class="tempo" value="120" min="40" max="220"></input>
+        </label>
+        <div class="note-container">
+        </div>
+        <button class="play-button" disabled>Play</button>
         <button class="stop-button" disabled>Stop</button>
         <script src="node_modules/webmidi/webmidi.min.js"></script>
         <script src="midi-seq.js"></script>

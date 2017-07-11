@@ -1,3 +1,85 @@
+body {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    height: 100vh;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    background-image: linear-gradient(to right, #9CE2E6, #c9f2f2, #9CE2E6);
+}
+
+h1 {
+    font-family: 'Monoton';
+    font-size: 50px;
+    color: yellow;
+    align-self: center;
+}
+
+.controller {
+    display: flex;
+    justify-content: flex-start;
+}
+
 button {
     height: 50px;
+    width: 150px;
+    margin: 50px 0px 50px 25px;
+    font-size: 20px;
+    border-radius: 5px;
+    border: 1px;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.cont {
+    margin: 0px 25px 10px 25px;
+    display: flex;
+}
+
+.note {
+    height: 25px;
+    width: 75px;
+    flex-wrap: nowrap;
+    flex: 1 1 auto;
+    font-size: 1em;
+}
+
+.beat {
+    background-color: #b7b3b3;
+}
+
+#actual-note {
+    background-color: #f2eded;
+}
+
+.accent-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.accent {
+    flex-wrap: nowrap;
+    flex: 1 1 auto;
+    height: 20px;
+    width: 75px;
+}
+
+.setup-container {
+    margin: 40px 25px 0px 25px;
+    display: flex;
+    align-items: center;
+    height: 50px;
+}
+
+.setup {
+    margin-right: 25px;
+    height: 30px;
+    font-size: 15px;
+}
+
+p {
+    margin: 0px 25px 0px 0px;
+    font-size: 15px;
 }

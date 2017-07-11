@@ -4,6 +4,7 @@ const playButton = document.querySelector('.play-button');
 const stopButton = document.querySelector('.stop-button');
 const loopLength = document.querySelector('.loop-length');
 const noteContainer = document.querySelector('.note-container');
+const accentContainer = document.querySelector('.accent-container')
 let interval;
 let play = false;
 let index = 0;
@@ -15,19 +16,23 @@ WebMidi.enable((err) => {
     } else {
         const output =  WebMidi.getOutputByName('USB Midi Cable MIDI 1');
 
+        setUpLoopSteps(loopLength.value);
+        setUpAccents(loopLength.value);
         loopLength.addEventListener('click', (e) =>{
             noteContainer.innerHTML = '';
-            playButton.disabled = false;
-            loopLength.disabled = true;
+            accentContainer.innerHTML = '';
             setUpLoopSteps(loopLength.value);
+            setUpAccents(loopLength.value);
         });
 
         playButton.addEventListener('click', (e) => {
             const song_notes = document.querySelectorAll('.note');
+            const accents = document.querySelectorAll('.accent');
             playButton.disabled = true;
             stopButton.disabled = false;
+            loopLength.disabled = true;
             play = true;
-            playLoop(output, song_notes);
+            playLoop(output, song_notes, accents);
         });
         stopButton.addEventListener('click', (e) => {
             play = false;
@@ -54,6 +59,9 @@ const setUpLoopSteps = function(length) {
     for (let i = 0; i < length; i++) {
         const note = document.createElement('select');
         note.setAttribute('class', 'note ' + i);
+        if (i % 4 === 0) {
+            note.className += ' beat';
+        }
         noteContainer.appendChild(note);
         notes.forEach((e) => {
             let n = document.createElement('option');
@@ -64,21 +72,36 @@ const setUpLoopSteps = function(length) {
     }
 }
 
-const playOneNote = function(output, notes) {
+const setUpAccents = function(length) {
+    for (let i = 0; i < length; i++) {
+        const checkbox = document.createElement('input');
+        checkbox.setAttribute('type', 'checkbox')
+        checkbox.setAttribute('class', 'accent ' + i);
+        accentContainer.appendChild(checkbox);
+    }
+}
+
+const playOneNote = function(output, notes, accents) {
     const options = {
         time: 1000
     }
+    let velocity = {
+        velocity: 0.5
+    }
+    if (accents[index % notes.length].checked === true) {
+        velocity.velocity = 1;
+    }
     if (notes[index % notes.length].value !== '') {
-        output.playNote(notes[index % notes.length].value, 1);
+        output.playNote(notes[index % notes.length].value, 1, velocity);
         output.stopNote(notes[index % notes.length].value, 1, options);
     }
     index++;
 }
 
-const playLoop = function(output, notes){
+const playLoop = function(output, notes, accents){
     clearInterval(interval);
-    playOneNote(output, notes);
+    playOneNote(output, notes, accents);
     if (play) {
-        interval = setInterval(playLoop, getTempo(), output, notes);
+        interval = setInterval(playLoop, getTempo(), output, notes, accents);
     }
 }
